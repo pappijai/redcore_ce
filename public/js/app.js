@@ -2306,7 +2306,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    loadBlog: function loadBlog() {
+    loadDeletedBlog: function loadDeletedBlog() {
       var _this = this;
 
       axios.get('api/get_deleted_blogs').then(function (_ref) {
@@ -2314,35 +2314,82 @@ __webpack_require__.r(__webpack_exports__);
         return _this.db_blogs = data;
       });
     },
-    deleteBlog: function deleteBlog(id) {},
+    recycleBlog: function recycleBlog(id) {
+      var _this2 = this;
+
+      swal.fire({
+        title: 'Are you sure you want to restore?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, restore it!'
+      }).then(function (result) {
+        // Send ajax request to server
+        if (result.value) {
+          _this2.form["delete"]('api/restore_blogs/' + id).then(function () {
+            Fire.$emit('AfterRestore');
+            swal.fire('Success', 'Blog restored successfully', 'success');
+          })["catch"](function () {
+            swal.fire('Error', 'There was something wrong.', 'error');
+          });
+        }
+      });
+    },
+    deleteBlog: function deleteBlog(id) {
+      var _this3 = this;
+
+      swal.fire({
+        title: 'Are you sure you want to delete?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        // Send ajax request to server
+        if (result.value) {
+          _this3.form["delete"]('api/delete_blogs_permanent/' + id).then(function () {
+            Fire.$emit('AfterDelete');
+            swal.fire('Success', 'Blog deleted successfully', 'success');
+          })["catch"](function () {
+            swal.fire('Error', 'There was something wrong.', 'error');
+          });
+        }
+      });
+    },
     getBlogPhoto: function getBlogPhoto() {
       var photo = this.form.blog_image.length > 200 ? this.form.blog_image : "./images/blog_photo/" + this.form.blog_image;
       return photo;
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this4 = this;
 
-    this.loadBlog();
+    this.loadDeletedBlog();
     Fire.$on('searching', function () {
-      var query = _this2.$parent.search;
+      var query = _this4.$parent.search;
 
       if (query == '') {
-        _this2.loadBlog();
+        _this4.loadDeletedBlog();
       } else {
-        axios.get('api/blogs/' + query).then(function (data) {
-          _this2.blogs = data.data;
+        axios.get('api/search_deleted_blogs/' + query).then(function (data) {
+          _this4.db_blogs = data.data;
         })["catch"](function () {
           console.log(error);
         });
       }
     });
+    Fire.$on('AfterRestore', function () {
+      _this4.loadDeletedBlog();
+    });
     Fire.$on('AfterDelete', function () {
-      _this2.loadBlog();
+      _this4.loadDeletedBlog();
     });
   },
   mounted: function mounted() {
-    this.loadBlog();
+    this.loadDeletedBlog();
   }
 });
 
@@ -63810,7 +63857,7 @@ var render = function() {
                             staticClass: "btn btn-success",
                             on: {
                               click: function($event) {
-                                return _vm.recycleBlog(_vm.blog.db_id)
+                                return _vm.recycleBlog(db_blog.db_id)
                               }
                             }
                           },
@@ -63827,7 +63874,7 @@ var render = function() {
                             staticClass: "btn btn-danger",
                             on: {
                               click: function($event) {
-                                return _vm.deleteBlog(_vm.blog.db_id)
+                                return _vm.deleteBlog(db_blog.db_id)
                               }
                             }
                           },

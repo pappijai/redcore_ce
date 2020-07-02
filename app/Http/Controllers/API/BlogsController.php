@@ -177,4 +177,44 @@ class BlogsController extends Controller
 
         return $deleted_blogs_data;
     }
+
+    // search filter in deleted blogs
+    public function search_deleted_blogs($search)
+    {
+        //
+        if($search){
+            $blog = $this->blogs->get_search_deleted_blogs($search);
+            return $blog;
+        }
+    }
+
+    // restore deleted blogs
+    public function restore_blogs($id)
+    {
+        //
+        $restore_blog = $this->blogs->restore_blog($id);
+            
+        if($restore_blog){
+            return 'good';
+        }
+        else{
+            return 'error';
+        }
+
+    }
+    
+    // deleted blogs permanently
+    public function delete_blogs_permanent($id)
+    {
+        //
+        $delete_blogs_permanent = $this->blogs->delete_blogs_permanent($id);
+            
+        if($delete_blogs_permanent){
+            return 'good';
+        }
+        else{
+            return 'error';
+        }
+
+    }
 }

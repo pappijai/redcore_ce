@@ -27,10 +27,10 @@
                                     <td>{{db_blog.db_description}}</td>
                                     <td>{{db_blog.db_created | myDate}}</td>
                                     <td>
-                                        <button class="btn btn-success" @click="recycleBlog(blog.db_id)">
+                                        <button class="btn btn-success" @click="recycleBlog(db_blog.db_id)">
                                             <i class="fas fa-recycle text-white"></i>    
                                         </button>
-                                        <button class="btn btn-danger" @click="deleteBlog(blog.db_id)">
+                                        <button class="btn btn-danger" @click="deleteBlog(db_blog.db_id)">
                                             <i class="fas fa-trash text-white"></i>    
                                         </button>
                                     </td>
@@ -76,11 +76,71 @@
             }
         },
         methods:{
-            loadBlog(){
+            loadDeletedBlog(){
                 axios.get('api/get_deleted_blogs').then(({ data }) => (this.db_blogs = data));
             },
+            recycleBlog(id){
+                swal.fire({
+                    title: 'Are you sure you want to restore?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, restore it!'
+                }).then((result) => {
+                    // Send ajax request to server
+                    if(result.value){
+                        this.form.delete('api/restore_blogs/'+id)
+                        .then(() => {
+                            Fire.$emit('AfterRestore');
+                            swal.fire(
+                                'Success',
+                                'Blog restored successfully',
+                                'success'
+                            )
+                            
+                        })
+                        .catch(() =>{
+                            swal.fire(
+                                'Error',
+                                'There was something wrong.',
+                                'error'
+                            )
+                        })
+                    }
+                })  
+            },
             deleteBlog(id){
-
+                swal.fire({
+                    title: 'Are you sure you want to delete?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    // Send ajax request to server
+                    if(result.value){
+                        this.form.delete('api/delete_blogs_permanent/'+id)
+                        .then(() => {
+                            Fire.$emit('AfterDelete');
+                            swal.fire(
+                                'Success',
+                                'Blog deleted successfully',
+                                'success'
+                            )
+                            
+                        })
+                        .catch(() =>{
+                            swal.fire(
+                                'Error',
+                                'There was something wrong.',
+                                'error'
+                            )
+                        })
+                    }
+                })  
             },
             getBlogPhoto(){
                 let photo = (this.form.blog_image.length > 200) ? this.form.blog_image : "./images/blog_photo/"+this.form.blog_image;
@@ -89,17 +149,17 @@
             },
         },
         created(){
-            this.loadBlog();
+            this.loadDeletedBlog();
 
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query == ''){
-                    this.loadBlog();
+                    this.loadDeletedBlog();
                 }
                 else{
-                    axios.get('api/blogs/' + query)
+                    axios.get('api/search_deleted_blogs/' + query)
                     .then((data) => {
-                        this.blogs = data.data
+                        this.db_blogs = data.data
                     })
                     .catch(() => {
                         console.log(error);
@@ -107,12 +167,16 @@
                 }
             })
 
+            Fire.$on('AfterRestore', () => {
+                this.loadDeletedBlog();
+            })
+
             Fire.$on('AfterDelete', () => {
-                this.loadBlog();
+                this.loadDeletedBlog();
             })
         },
         mounted() {
-            this.loadBlog();
+            this.loadDeletedBlog();
         }
     }
 </script>

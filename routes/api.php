@@ -22,4 +22,8 @@ Route::apiResources(['blogs' => 'API\BlogsController']);
 
 // get request 
 Route::get('get_deleted_blogs', 'API\BlogsController@get_deleted_blogs');
+Route::get('search_deleted_blogs/{id}', 'API\BlogsController@search_deleted_blogs');
 
+// delete request
+Route::delete('restore_blogs/{id}', 'API\BlogsController@restore_blogs');
+Route::delete('delete_blogs_permanent/{id}', 'API\BlogsController@delete_blogs_permanent');
