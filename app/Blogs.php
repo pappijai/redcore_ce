@@ -83,6 +83,14 @@ class Blogs extends Model
     }
 
     public function delete_blogs_permanent($id){
+        $data = DB::select('SELECT * FROM deleted_blogs WHERE md5(concat(db_id)) = "'.$id.'"');
+
+        $blogphoto = public_path('images/blog_photo/').$data[0]->db_image;
+
+        if(file_exists($blogphoto)){
+            @unlink($blogphoto);
+        }
+
         $delete = DB::delete('DELETE FROM deleted_blogs WHERE md5(concat(db_id)) = "'.$id.'"');
         if($delete){
             return true;
