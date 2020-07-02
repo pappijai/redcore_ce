@@ -13087,6 +13087,54 @@ a.text-muted:hover {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }@charset "UTF-8";
 
+.text-blue {
+  color: #3490dc !important;
+}
+
+.text-indigo {
+  color: #6574cd !important;
+}
+
+.text-purple {
+  color: #9561e2 !important;
+}
+
+.text-pink {
+  color: #f66D9b !important;
+}
+
+.text-red {
+  color: #e3342f !important;
+}
+
+.text-orange {
+  color: #f6993f !important;
+}
+
+.text-yellow {
+  color: #ffed4a !important;
+}
+
+.text-green {
+  color: #38c172 !important;
+}
+
+.text-teal {
+  color: #08a4a7 !important;
+}
+
+.text-cyan {
+  color: #6cb2eb !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.text-black {
+  color: #000000 !important;
+}
+
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
@@ -13098,12 +13146,12 @@ a.text-muted:hover {
   --blue: #3490dc;
   --indigo: #6574cd;
   --purple: #9561e2;
-  --pink: #f66d9b;
+  --pink: #f66D9b;
   --red: #e3342f;
   --orange: #f6993f;
   --yellow: #ffed4a;
   --green: #38c172;
-  --teal: #4dc0b5;
+  --teal: #08a4a7;
   --cyan: #6cb2eb;
   --white: #fff;
   --gray: #6c757d;
@@ -13620,7 +13668,7 @@ mark,
 
 code {
   font-size: 87.5%;
-  color: #f66d9b;
+  color: #f66D9b;
   word-wrap: break-word;
 }
 
@@ -30095,5 +30143,10 @@ readers do not read off random characters that represent icons */
 .fab {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
+}
+
+.router-link-exact-active {
+  background-color: orange;
+  color: white !important;
 }
 

@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+// this thing help us not to redirect to not found page if u 
+//refresh the page with a vue components
+Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?');

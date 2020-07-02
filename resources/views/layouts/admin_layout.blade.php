@@ -22,15 +22,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-teal" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                        <a class="nav-link text-orange" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
                     </li>
                 </ul>
                 <!-- SEARCH FORM -->
                 <div class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <h4 class="text-teal">Coding Exam</h4>
+                    <div class="input-group input-group-sm">
+                        <h4 class="text-orange">Coding Exam</h4>
+                    </div>
                 </div>
-                </div>
+                <form class="form-inline ml-3" @submit.prevent="search_it">
+                    <div class="input-group input-group-sm">
+                        <input type="text" v-model="search" @keyup="search_it" class="form-control form-control-navbar" type="search" placeholder="Search"
+                        aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" @click="search_it">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                 <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -47,6 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </li>
                 </ul>
+
             </nav>
             <!-- /.navbar -->
 
@@ -68,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">
-                                name
+                                {{ Auth::user()->name}}
                                 <br/>
                                 <small><i class="fas fa-circle fa-sm text-green"></i> admin</small>
                             </a>
@@ -78,14 +90,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <router-link to="/dashboard" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt text-white"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                            </router-link>
-                        </li>
+                            {{-- dashboard --}}
+                            <li class="nav-item">
+                                <router-link to="/dashboard" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt text-white"></i>
+                                    <p>
+                                        Dashboard
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            {{-- blogs --}}
+                            <li class="nav-item">
+                                <router-link to="/blogs" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper text-white"></i>
+                                    <p>
+                                        Blogs
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            {{-- recycle bin --}}
+                            <li class="nav-item">
+                                <router-link to="/recycle_bin" class="nav-link">
+                                    <i class="nav-icon fas fa-trash text-white"></i>
+                                    <p>
+                                        Recycle Bin
+                                    </p>
+                                </router-link>
+                            </li>
                         </ul>
                     </nav>
                 <!-- /.sidebar-menu -->
