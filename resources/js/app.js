@@ -34,9 +34,13 @@ Vue.use(VueRouter);
 
 // store all the paths
 let routes = [
+	{path: '/', component: require('./components/Welcome.vue').default},
 	{path: '/dashboard', component: require('./components/Dashboard.vue').default},
 	{path: '/blogs', component: require('./components/Blogs.vue').default},
 	{path: '/recycle_bin', component: require('./components/RecycleBin.vue').default},
+    {path: '/read_more', component: require('./components/ReadMore.vue').default},
+    
+    {path: '*', component: require('./components/NotFound.vue').default},
 ]
 
 // register all the routes
