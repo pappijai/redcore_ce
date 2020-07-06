@@ -2129,7 +2129,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this4 = this;
 
-    this.loadBlog();
     Fire.$on('searching', function () {
       var query = _this4.$parent.search;
 
@@ -2139,7 +2138,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.get('api/blogs/' + query).then(function (data) {
           _this4.blogs = data.data;
         })["catch"](function () {
-          console.log(error);
+          console.log('error');
         });
       }
     });
@@ -2451,7 +2450,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this4 = this;
 
-    this.loadDeletedBlog();
     Fire.$on('searching', function () {
       var query = _this4.$parent.search;
 
@@ -2461,7 +2459,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.get('api/search_deleted_blogs/' + query).then(function (data) {
           _this4.db_blogs = data.data;
         })["catch"](function () {
-          console.log(error);
+          console.log('error');
         });
       }
     });
@@ -2544,7 +2542,19 @@ __webpack_require__.r(__webpack_exports__);
         return _this.blogs = data;
       });
     },
-    search_it: function search_it() {}
+    search_it: function search_it() {
+      var _this2 = this;
+
+      if (this.search == '') {
+        this.loadBlogs();
+      } else {
+        axios.get('api/welcome_search_blog/' + this.search).then(function (data) {
+          _this2.blogs = data.data;
+        })["catch"](function () {
+          console.log('error');
+        });
+      }
+    }
   },
   mounted: function mounted() {
     this.loadBlogs();
@@ -79661,6 +79671,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
   mode: 'history',
   routes: routes
 }); // filters
+// date to words using moment
 
 Vue.filter('myDate', function (created) {
   return moment__WEBPACK_IMPORTED_MODULE_0___default()(created).format('MMMM Do YYYY');

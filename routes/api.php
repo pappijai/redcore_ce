@@ -25,6 +25,7 @@ Route::get('get_deleted_blogs', 'API\BlogsController@get_deleted_blogs');
 Route::get('search_deleted_blogs/{id}', 'API\BlogsController@search_deleted_blogs');
 Route::get('get_all_blogs', 'API\WelcomeController@index');
 Route::get('get_blogs/{id}', 'API\WelcomeController@get_blogs');
+Route::get('welcome_search_blog/{search}', 'API\WelcomeController@search_blog');
 
 // delete request
 Route::delete('restore_blogs/{id}', 'API\BlogsController@restore_blogs');

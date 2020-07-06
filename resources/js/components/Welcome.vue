@@ -51,7 +51,18 @@
                 axios.get('api/get_all_blogs').then(({ data }) => (this.blogs = data));
             },
             search_it(){
-
+                if(this.search == ''){
+                    this.loadBlogs();
+                }
+                else{
+                    axios.get('api/welcome_search_blog/' + this.search)
+                    .then((data) => {
+                        this.blogs = data.data
+                    })
+                    .catch(() => {
+                        console.log('error');
+                    })
+                }
             }
         },
         mounted() {

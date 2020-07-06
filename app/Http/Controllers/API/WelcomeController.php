@@ -34,6 +34,11 @@ class WelcomeController extends Controller
     public function get_blogs($id){
         $blogs_data = $this->welcome->get_blogs_data($id);
         return $blogs_data;
+    }
 
+    public function search_blog($search){
+        $blogs_data = $this->welcome->search_blog($search);
+
+        return $blogs_data;
     }
 }

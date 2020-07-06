@@ -50,6 +50,7 @@ const router = new VueRouter({
 })
 
 // filters
+// date to words using moment
 Vue.filter('myDate', function(created){
     return moment(created).format('MMMM Do YYYY');
 })

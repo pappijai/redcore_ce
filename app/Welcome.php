@@ -18,4 +18,9 @@ class Welcome extends Model
         return DB::select('SELECT md5(blog_id) blog_id,blog_title,blog_description,blog_image,created_at 
                         FROM blogs WHERE md5(concat(blog_id)) = "'.$id.'" ORDER BY blog_title,created_at ASC LIMIT 1');
     }
+    
+    public function search_blog($search){
+        return DB::select('SELECT md5(blog_id) blog_id,blog_title,blog_description,blog_image,created_at 
+                        FROM blogs WHERE blog_title LIKE "%'.$search.'%" ORDER BY blog_title ASC');
+    }
 }

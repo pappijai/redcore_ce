@@ -149,8 +149,6 @@
             },
         },
         created(){
-            this.loadDeletedBlog();
-
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query == ''){
@@ -162,7 +160,7 @@
                         this.db_blogs = data.data
                     })
                     .catch(() => {
-                        console.log(error);
+                        console.log('error');
                     })
                 }
             })

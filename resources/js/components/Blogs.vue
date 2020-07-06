@@ -226,8 +226,6 @@
             },
         },
         created(){
-            this.loadBlog();
-
             Fire.$on('searching', () => {
                 let query = this.$parent.search;
                 if(query == ''){
@@ -239,7 +237,7 @@
                         this.blogs = data.data
                     })
                     .catch(() => {
-                        console.log(error);
+                        console.log('error');
                     })
                 }
             })
