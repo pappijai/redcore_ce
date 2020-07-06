@@ -123,7 +123,7 @@
             createBlog(){
                 this.form.post('api/blogs')
                 .then(() => {
-                    Fire.$emit('AfterCreate');
+                    this.loadBlog();
                     $('#addBlogsModal').modal('hide'); 
                     swal.fire(
                         'Good job!',
@@ -149,7 +149,7 @@
             updateBlog(){
                 this.form.put('api/blogs/'+this.form.blog_id)
                 .then(() => {
-                    Fire.$emit('AfterUpdate');
+                    this.loadBlog();
                     $('#addBlogsModal').modal('hide');                    
                     swal.fire(
                         'Good job!',
@@ -201,7 +201,7 @@
                     if(result.value){
                         this.form.delete('api/blogs/'+id)
                         .then(() => {
-                            Fire.$emit('AfterDelete');
+                            this.loadBlog();
                             swal.fire(
                                 'Success',
                                 'Blog deleted successfully',
@@ -240,18 +240,6 @@
                         console.log('error');
                     })
                 }
-            })
-
-            Fire.$on('AfterCreate', () => {
-                this.loadBlog();
-            })
-
-            Fire.$on('AfterUpdate', () => {
-                this.loadBlog();
-            })
-
-            Fire.$on('AfterDelete', () => {
-                this.loadBlog();
             })
         },
         mounted() {

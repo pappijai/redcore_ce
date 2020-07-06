@@ -92,7 +92,7 @@
                     if(result.value){
                         this.form.delete('api/restore_blogs/'+id)
                         .then(() => {
-                            Fire.$emit('AfterRestore');
+                            this.loadDeletedBlog();
                             swal.fire(
                                 'Success',
                                 'Blog restored successfully',
@@ -124,7 +124,7 @@
                     if(result.value){
                         this.form.delete('api/delete_blogs_permanent/'+id)
                         .then(() => {
-                            Fire.$emit('AfterDelete');
+                            this.loadDeletedBlog();
                             swal.fire(
                                 'Success',
                                 'Blog deleted successfully',
@@ -163,14 +163,6 @@
                         console.log('error');
                     })
                 }
-            })
-
-            Fire.$on('AfterRestore', () => {
-                this.loadDeletedBlog();
-            })
-
-            Fire.$on('AfterDelete', () => {
-                this.loadDeletedBlog();
             })
         },
         mounted() {

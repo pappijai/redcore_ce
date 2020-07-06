@@ -2052,8 +2052,11 @@ __webpack_require__.r(__webpack_exports__);
       $('#addBlogsModal').modal('show');
     },
     createBlog: function createBlog() {
+      var _this2 = this;
+
       this.form.post('api/blogs').then(function () {
-        Fire.$emit('AfterCreate');
+        _this2.loadBlog();
+
         $('#addBlogsModal').modal('hide');
         swal.fire('Good job!', 'Blog created successfully', 'success');
       })["catch"](function () {
@@ -2068,8 +2071,11 @@ __webpack_require__.r(__webpack_exports__);
       $('#addBlogsModal').modal('show');
     },
     updateBlog: function updateBlog() {
+      var _this3 = this;
+
       this.form.put('api/blogs/' + this.form.blog_id).then(function () {
-        Fire.$emit('AfterUpdate');
+        _this3.loadBlog();
+
         $('#addBlogsModal').modal('hide');
         swal.fire('Good job!', 'Blog updated successfully', 'success');
       })["catch"](function () {
@@ -2077,7 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     UpdateBlogImage: function UpdateBlogImage(e) {
-      var _this2 = this;
+      var _this4 = this;
 
       var file = e.target.files[0];
       console.log(file);
@@ -2086,7 +2092,7 @@ __webpack_require__.r(__webpack_exports__);
       if (file['size'] < 5000000) {
         reader.onloadend = function (file) {
           //console.log('RESULT', reader.result);
-          _this2.form.blog_image = reader.result;
+          _this4.form.blog_image = reader.result;
         };
 
         reader.readAsDataURL(file);
@@ -2099,7 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     deleteBlog: function deleteBlog(id) {
-      var _this3 = this;
+      var _this5 = this;
 
       swal.fire({
         title: 'Are you sure you want to delete?',
@@ -2112,8 +2118,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send ajax request to server
         if (result.value) {
-          _this3.form["delete"]('api/blogs/' + id).then(function () {
-            Fire.$emit('AfterDelete');
+          _this5.form["delete"]('api/blogs/' + id).then(function () {
+            _this5.loadBlog();
+
             swal.fire('Success', 'Blog deleted successfully', 'success');
           })["catch"](function () {
             swal.fire('Error', 'There was something wrong.', 'error');
@@ -2127,29 +2134,20 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this6 = this;
 
     Fire.$on('searching', function () {
-      var query = _this4.$parent.search;
+      var query = _this6.$parent.search;
 
       if (query == '') {
-        _this4.loadBlog();
+        _this6.loadBlog();
       } else {
         axios.get('api/blogs/' + query).then(function (data) {
-          _this4.blogs = data.data;
+          _this6.blogs = data.data;
         })["catch"](function () {
           console.log('error');
         });
       }
-    });
-    Fire.$on('AfterCreate', function () {
-      _this4.loadBlog();
-    });
-    Fire.$on('AfterUpdate', function () {
-      _this4.loadBlog();
-    });
-    Fire.$on('AfterDelete', function () {
-      _this4.loadBlog();
     });
   },
   mounted: function mounted() {
@@ -2411,7 +2409,8 @@ __webpack_require__.r(__webpack_exports__);
         // Send ajax request to server
         if (result.value) {
           _this2.form["delete"]('api/restore_blogs/' + id).then(function () {
-            Fire.$emit('AfterRestore');
+            _this2.loadDeletedBlog();
+
             swal.fire('Success', 'Blog restored successfully', 'success');
           })["catch"](function () {
             swal.fire('Error', 'There was something wrong.', 'error');
@@ -2434,7 +2433,8 @@ __webpack_require__.r(__webpack_exports__);
         // Send ajax request to server
         if (result.value) {
           _this3.form["delete"]('api/delete_blogs_permanent/' + id).then(function () {
-            Fire.$emit('AfterDelete');
+            _this3.loadDeletedBlog();
+
             swal.fire('Success', 'Blog deleted successfully', 'success');
           })["catch"](function () {
             swal.fire('Error', 'There was something wrong.', 'error');
@@ -2462,12 +2462,6 @@ __webpack_require__.r(__webpack_exports__);
           console.log('error');
         });
       }
-    });
-    Fire.$on('AfterRestore', function () {
-      _this4.loadDeletedBlog();
-    });
-    Fire.$on('AfterDelete', function () {
-      _this4.loadDeletedBlog();
     });
   },
   mounted: function mounted() {
