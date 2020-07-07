@@ -113,7 +113,13 @@
         },
         methods:{
             loadBlog(){
-                axios.get('api/blogs').then(({ data }) => (this.blogs = data));
+                axios.get('api/blogs')
+                .then(({ data }) => {
+                    this.blogs = data;
+                })
+                .catch(({ data }) => {
+                    console.log(data);
+                })
             },
             newBlog(){
                 this.editmode = false
@@ -122,21 +128,17 @@
             },
             createBlog(){
                 this.form.post('api/blogs')
-                .then(() => {
+                .then(({ data }) => {
                     this.loadBlog();
                     $('#addBlogsModal').modal('hide'); 
                     swal.fire(
-                        'Good job!',
-                        'Blog created successfully',
-                        'success'
+                        data.title,
+                        data.message,
+                        data.type
                     )
                 })
-                .catch(() => {
-                    swal.fire(
-                        'Error',
-                        'Error occured.',
-                        'error'
-                    )
+                .catch(({ data }) => {
+                    console.log(data);
                 })
             },
             editBlog(blog){
@@ -148,21 +150,17 @@
             },
             updateBlog(){
                 this.form.put('api/blogs/'+this.form.blog_id)
-                .then(() => {
+                .then(({ data }) => {
                     this.loadBlog();
                     $('#addBlogsModal').modal('hide');                    
                     swal.fire(
-                        'Good job!',
-                        'Blog updated successfully',
-                        'success'
+                        data.title,
+                        data.message,
+                        data.type
                     )                      
                 })
-                .catch(() => {
-                    swal.fire(
-                        'Error',
-                        'Error occured.',
-                        'error'
-                    )
+                .catch(({ data }) => {
+                    console.log(data);
                 }) 
             },
             UpdateBlogImage(e){
@@ -200,21 +198,17 @@
                     // Send ajax request to server
                     if(result.value){
                         this.form.delete('api/blogs/'+id)
-                        .then(() => {
+                        .then(({ data }) => {
                             this.loadBlog();
                             swal.fire(
-                                'Success',
-                                'Blog deleted successfully',
-                                'success'
+                                data.title,
+                                data.message,
+                                data.type
                             )
                             
                         })
-                        .catch(() =>{
-                            swal.fire(
-                                'Error',
-                                'There was something wrong.',
-                                'error'
-                            )
+                        .catch(({ data }) =>{
+                            console.log(data);
                         })
                     }
                 })   
@@ -233,11 +227,11 @@
                 }
                 else{
                     axios.get('api/blogs/' + query)
-                    .then((data) => {
-                        this.blogs = data.data
+                    .then(({ data }) => {
+                        this.blogs = data
                     })
-                    .catch(() => {
-                        console.log('error');
+                    .catch(({ data }) => {
+                        console.log(data);
                     })
                 }
             })

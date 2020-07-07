@@ -23,7 +23,13 @@
         },
         methods: {
             getBlog(blog_id){
-                axios.get('api/get_blogs/'+blog_id).then(({ data }) => (this.blogs = data));
+                axios.get('api/get_blogs/'+blog_id)
+                .then(({ data }) => {
+                    this.blogs = data;
+                })
+                .catch(({ data }) => {
+                    console.log(data);
+                })
             }
         },
         mounted() {

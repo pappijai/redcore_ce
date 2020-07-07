@@ -2043,7 +2043,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/blogs').then(function (_ref) {
         var data = _ref.data;
-        return _this.blogs = data;
+        _this.blogs = data;
+      })["catch"](function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
       });
     },
     newBlog: function newBlog() {
@@ -2054,13 +2057,16 @@ __webpack_require__.r(__webpack_exports__);
     createBlog: function createBlog() {
       var _this2 = this;
 
-      this.form.post('api/blogs').then(function () {
+      this.form.post('api/blogs').then(function (_ref3) {
+        var data = _ref3.data;
+
         _this2.loadBlog();
 
         $('#addBlogsModal').modal('hide');
-        swal.fire('Good job!', 'Blog created successfully', 'success');
-      })["catch"](function () {
-        swal.fire('Error', 'Error occured.', 'error');
+        swal.fire(data.title, data.message, data.type);
+      })["catch"](function (_ref4) {
+        var data = _ref4.data;
+        console.log(data);
       });
     },
     editBlog: function editBlog(blog) {
@@ -2073,13 +2079,16 @@ __webpack_require__.r(__webpack_exports__);
     updateBlog: function updateBlog() {
       var _this3 = this;
 
-      this.form.put('api/blogs/' + this.form.blog_id).then(function () {
+      this.form.put('api/blogs/' + this.form.blog_id).then(function (_ref5) {
+        var data = _ref5.data;
+
         _this3.loadBlog();
 
         $('#addBlogsModal').modal('hide');
-        swal.fire('Good job!', 'Blog updated successfully', 'success');
-      })["catch"](function () {
-        swal.fire('Error', 'Error occured.', 'error');
+        swal.fire(data.title, data.message, data.type);
+      })["catch"](function (_ref6) {
+        var data = _ref6.data;
+        console.log(data);
       });
     },
     UpdateBlogImage: function UpdateBlogImage(e) {
@@ -2118,12 +2127,15 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send ajax request to server
         if (result.value) {
-          _this5.form["delete"]('api/blogs/' + id).then(function () {
+          _this5.form["delete"]('api/blogs/' + id).then(function (_ref7) {
+            var data = _ref7.data;
+
             _this5.loadBlog();
 
-            swal.fire('Success', 'Blog deleted successfully', 'success');
-          })["catch"](function () {
-            swal.fire('Error', 'There was something wrong.', 'error');
+            swal.fire(data.title, data.message, data.type);
+          })["catch"](function (_ref8) {
+            var data = _ref8.data;
+            console.log(data);
           });
         }
       });
@@ -2142,10 +2154,12 @@ __webpack_require__.r(__webpack_exports__);
       if (query == '') {
         _this6.loadBlog();
       } else {
-        axios.get('api/blogs/' + query).then(function (data) {
-          _this6.blogs = data.data;
-        })["catch"](function () {
-          console.log('error');
+        axios.get('api/blogs/' + query).then(function (_ref9) {
+          var data = _ref9.data;
+          _this6.blogs = data;
+        })["catch"](function (_ref10) {
+          var data = _ref10.data;
+          console.log(data);
         });
       }
     });
@@ -2289,7 +2303,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/get_blogs/' + blog_id).then(function (_ref) {
         var data = _ref.data;
-        return _this.blogs = data;
+        _this.blogs = data;
+      })["catch"](function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
       });
     }
   },
@@ -2392,7 +2409,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/get_deleted_blogs').then(function (_ref) {
         var data = _ref.data;
-        return _this.db_blogs = data;
+        _this.db_blogs = data;
+      })["catch"](function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
       });
     },
     recycleBlog: function recycleBlog(id) {
@@ -2408,12 +2428,15 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send ajax request to server
         if (result.value) {
-          _this2.form["delete"]('api/restore_blogs/' + id).then(function () {
+          _this2.form["delete"]('api/restore_blogs/' + id).then(function (_ref3) {
+            var data = _ref3.data;
+
             _this2.loadDeletedBlog();
 
-            swal.fire('Success', 'Blog restored successfully', 'success');
-          })["catch"](function () {
-            swal.fire('Error', 'There was something wrong.', 'error');
+            swal.fire(data.title, data.message, data.type);
+          })["catch"](function (_ref4) {
+            var data = _ref4.data;
+            console.log(data);
           });
         }
       });
@@ -2432,12 +2455,15 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send ajax request to server
         if (result.value) {
-          _this3.form["delete"]('api/delete_blogs_permanent/' + id).then(function () {
+          _this3.form["delete"]('api/delete_blogs_permanent/' + id).then(function (_ref5) {
+            var data = _ref5.data;
+
             _this3.loadDeletedBlog();
 
-            swal.fire('Success', 'Blog deleted successfully', 'success');
-          })["catch"](function () {
-            swal.fire('Error', 'There was something wrong.', 'error');
+            swal.fire(data.title, data.message, data.type);
+          })["catch"](function (_ref6) {
+            var data = _ref6.data;
+            console.log(data);
           });
         }
       });
@@ -2456,10 +2482,12 @@ __webpack_require__.r(__webpack_exports__);
       if (query == '') {
         _this4.loadDeletedBlog();
       } else {
-        axios.get('api/search_deleted_blogs/' + query).then(function (data) {
-          _this4.db_blogs = data.data;
-        })["catch"](function () {
-          console.log('error');
+        axios.get('api/search_deleted_blogs/' + query).then(function (_ref7) {
+          var data = _ref7.data;
+          _this4.db_blogs = data;
+        })["catch"](function (_ref8) {
+          var data = _ref8.data;
+          console.log(data);
         });
       }
     });
@@ -2533,7 +2561,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/get_all_blogs').then(function (_ref) {
         var data = _ref.data;
-        return _this.blogs = data;
+        _this.blogs = data;
+      })["catch"](function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
       });
     },
     search_it: function search_it() {
@@ -2542,10 +2573,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.search == '') {
         this.loadBlogs();
       } else {
-        axios.get('api/welcome_search_blog/' + this.search).then(function (data) {
-          _this2.blogs = data.data;
-        })["catch"](function () {
-          console.log('error');
+        axios.get('api/welcome_search_blog/' + this.search).then(function (_ref3) {
+          var data = _ref3.data;
+          _this2.blogs = data;
+        })["catch"](function (_ref4) {
+          var data = _ref4.data;
+          console.log(data);
         });
       }
     }
@@ -64345,7 +64378,7 @@ var render = function() {
       "div",
       { staticClass: "row justify-content-center mt-3" },
       _vm._l(_vm.blogs, function(blog) {
-        return _c("div", { key: blog.blog_id, staticClass: "col-md-3 mr-5" }, [
+        return _c("div", { key: blog.blog_id, staticClass: "col-md-4" }, [
           _c("div", { staticClass: "card", staticStyle: { width: "18rem" } }, [
             _c("img", {
               staticClass: "card-img-top",

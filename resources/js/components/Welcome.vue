@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="row justify-content-center mt-3">
-            <div class="col-md-3 mr-5" v-for="blog in blogs" :key="blog.blog_id">
+            <div class="col-md-4" v-for="blog in blogs" :key="blog.blog_id">
                 <div class="card" style="width: 18rem;">
                     <img :src="'/images/blog_photo/' + blog.blog_image" class="card-img-top">
                     <div class="card-body">
@@ -48,7 +48,13 @@
         },
         methods: {
             loadBlogs(){
-                axios.get('api/get_all_blogs').then(({ data }) => (this.blogs = data));
+                axios.get('api/get_all_blogs')
+                .then(({ data }) => {
+                    this.blogs = data;
+                })
+                .catch(({ data }) => {
+                    console.log(data);
+                })
             },
             search_it(){
                 if(this.search == ''){
@@ -56,11 +62,11 @@
                 }
                 else{
                     axios.get('api/welcome_search_blog/' + this.search)
-                    .then((data) => {
-                        this.blogs = data.data
+                    .then(({ data }) => {
+                        this.blogs = data
                     })
-                    .catch(() => {
-                        console.log('error');
+                    .catch(({ data }) => {
+                        console.log(data);
                     })
                 }
             }

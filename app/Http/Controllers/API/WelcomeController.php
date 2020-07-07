@@ -17,9 +17,13 @@ class WelcomeController extends Controller
     }
 
     public function index(){
-        $blogs_data = $this->welcome->get_blogs();
-
-        return $blogs_data;
+        try {            
+            $blogs_data = $this->welcome->get_blogs();
+    
+            return $blogs_data;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        } 
     }
 
     public function check_path(){
@@ -32,13 +36,21 @@ class WelcomeController extends Controller
     }
 
     public function get_blogs($id){
-        $blogs_data = $this->welcome->get_blogs_data($id);
-        return $blogs_data;
+        try {            
+            $blogs_data = $this->welcome->get_blogs_data($id);
+            return $blogs_data;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        } 
     }
 
     public function search_blog($search){
-        $blogs_data = $this->welcome->search_blog($search);
-
-        return $blogs_data;
+        try {            
+            $blogs_data = $this->welcome->search_blog($search);
+    
+            return $blogs_data;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        } 
     }
 }

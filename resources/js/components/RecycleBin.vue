@@ -77,7 +77,13 @@
         },
         methods:{
             loadDeletedBlog(){
-                axios.get('api/get_deleted_blogs').then(({ data }) => (this.db_blogs = data));
+                axios.get('api/get_deleted_blogs')
+                .then(({ data }) => {
+                    this.db_blogs = data;
+                })
+                .catch(({ data }) => {
+                    console.log(data);
+                })
             },
             recycleBlog(id){
                 swal.fire({
@@ -91,21 +97,17 @@
                     // Send ajax request to server
                     if(result.value){
                         this.form.delete('api/restore_blogs/'+id)
-                        .then(() => {
+                        .then(({ data }) => {
                             this.loadDeletedBlog();
                             swal.fire(
-                                'Success',
-                                'Blog restored successfully',
-                                'success'
+                                data.title,
+                                data.message,
+                                data.type
                             )
                             
                         })
-                        .catch(() =>{
-                            swal.fire(
-                                'Error',
-                                'There was something wrong.',
-                                'error'
-                            )
+                        .catch(({ data }) =>{
+                            console.log(data);
                         })
                     }
                 })  
@@ -123,21 +125,17 @@
                     // Send ajax request to server
                     if(result.value){
                         this.form.delete('api/delete_blogs_permanent/'+id)
-                        .then(() => {
+                        .then(({ data }) => {
                             this.loadDeletedBlog();
                             swal.fire(
-                                'Success',
-                                'Blog deleted successfully',
-                                'success'
+                                data.title,
+                                data.message,
+                                data.type
                             )
                             
                         })
-                        .catch(() =>{
-                            swal.fire(
-                                'Error',
-                                'There was something wrong.',
-                                'error'
-                            )
+                        .catch(({ data }) =>{
+                            console.log(data);
                         })
                     }
                 })  
@@ -156,11 +154,11 @@
                 }
                 else{
                     axios.get('api/search_deleted_blogs/' + query)
-                    .then((data) => {
-                        this.db_blogs = data.data
+                    .then(({ data }) => {
+                        this.db_blogs = data
                     })
-                    .catch(() => {
-                        console.log('error');
+                    .catch(({ data }) => {
+                        console.log(data);
                     })
                 }
             })
